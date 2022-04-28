@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #container{
+        display: flex;
+        /* flex-direction: column; */
+        
+
+      }
+      #sidebar{
+        flex: 2;
+        border: 1px solid black;
+       
+        
+      }
+      #main{
+        flex: 8;
+        border: 1px solid black;
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap: 20px;
+      }
+    </style>
+
+
+  </head>
+
+  <body> <h1 style="text-align: center;">Unplash</h1>
+    <div id="container">
+     
+      <div id="sidebar">
+        <!--DO NOT CHANGE THIS ID's-->
+        <!--Append the horizontal navbar(sidebar) here only-->
+        
+
+
+      </div>
+
+      <div id="main">
+        <!--DO NOT CHANGE THIS ID's-->
+        <!--Append top images here only-->
+      </div>
+    </div>
+  </body>
+</html>
+<script type="module">
+//1. Creat ui componente
+//2. import the side bar;
+//3. append;
+//4.get top images
+//5. import make api call;
+//6. 
+
+
+//if there is import only one function imprt like that;
+import sidebar from './components/sidebar.js';
+
+//if there is many  function import like that ;
+import {makeAPIcall,appenddata} from './scripts/main.js';
+
+
+let sidebar_div=document.getElementById("sidebar");
+sidebar_div.innerHTML=sidebar();
+
+let input = document.getElementById("searchbar");
+input.addEventListener('keypress',(e)=>{
+  
+ if(e.key==='Enter'){
+
+  let input_value=document.getElementById("searchbar").value;
+
+  //here we dont have to stringify data because the data is alrady a string 
+    localStorage.setItem('search_term',input_value);
+
+    window.location.href='search.html';
+ } 
+
+})
+
+
+// always write awate before an async function call;
+// here res is calling a async function thats why the await is recured there
+
+let res= await makeAPIcall("https://api.unsplash.com/photos/?query=la&client_id=iASQjCcMMAfF4wq0x5foKSHtyXHC4TYt_0MvEiYZQWM");
+console.log(res);
+
+//url =https://api.unsplash.com/photos/?client_id=YOUR_ACCESS_KEY
+
+// api key =iASQjCcMMAfF4wq0x5foKSHtyXHC4TYt_0MvEiYZQWM
+let parent=document.getElementById("main");
+
+
+appenddata(res,parent);
+
+</script>
